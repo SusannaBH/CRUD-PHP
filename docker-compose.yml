@@ -1,0 +1,38 @@
+services:
+  php:
+    build: ./php
+    container_name: php_webapp
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./php:/var/www/html
+    ports:
+      - "8000:80"
+    depends_on:
+      - mysql
+  
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql  # Volumen persistente compartido
+  
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin-container
+    restart: always
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+    ports:
+      - "8080:80"
+
+volumes:
+  mysql_data:   # Volumen Docker persistente y compartido
