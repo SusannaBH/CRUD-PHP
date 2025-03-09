@@ -51,15 +51,20 @@ require 'db.php'; // Importa la conexión a la base de datos
     . '<br>MÓDULO => 10 % 3 = ' . $modulo;
   ?>
 
-  <!-- ARRAYS -->
   <h4>ARRAYS</h4>
   <?php
   $arrayEjemplo = array(null, 'Juan', 'Pedro', 'Luis');
   $arrayEjemplo[] = 'Carlos';
   print_r($arrayEjemplo);
   echo '<br>';
-  $array2Assoc = array('nombre' => 'Juan', 'apellido' => 'Perez');
+  $array2Assoc = array('name' => 'Juan', 'surname' => 'Perez');
   print_r($array2Assoc);
+
+  // IMPRIMIR VALORES DE UN ARRAY
+  // list($nullValue, $ValueInIndex1) = $arrayEjemplo;
+  [$nullValue, $ValueInIndex1] = $arrayEjemplo; //cuando el indice (posicion) NO tiene nombre
+  ['name' => $name, 'surname' => $surname] = $array2Assoc; //cuando el indice (posicion) SI tiene nombre
+
   ?>
 
   <h4>CONDICIONALES</h4>
@@ -92,7 +97,14 @@ require 'db.php'; // Importa la conexión a la base de datos
     default:
       echo "Es entre semana.";
       break;
-  }
+  } 
+
+  echo match ($dia) {
+    "monday" => "Es lunes, inicio de semana.",
+    "friday" => "Es viernes, casi fin de semana.",
+    "saturday", "sunday" => "Es fin de semana.",
+    default => "Es entre semana."
+  };
   ?>
 
   <h2>BUCLES</h2>
@@ -123,25 +135,39 @@ require 'db.php'; // Importa la conexión a la base de datos
 
   <h2>FUNCIONES</h2>
   <?php
-  function saludar($nombre)
+  function saludar($nombre = "Pepe")
   {
-    return "Hola, $nombre";
+    return "<br>Hola, $nombre";
   }
-
   echo saludar("CARACOLA");
+
+  echo saludar();
 
   $coloresAssoc = ["red" => "Rojo", "blue" => "Azul", "green" => "Verde"];
 
   function iterarColores(iterable $colors)
   {
     $output = "";
-    foreach ($colors as $index => $color) {
-      $output .= "<span style='color: $index'> $color </span>";
+    foreach ($colors as $position => $value) {
+      $output .= "<span style='color: $position'> $value </span>";
     }
     return $output;
   }
 
   echo "<p>Función con <i>iterable</i> y array asociativo <br>" . iterarColores($coloresAssoc) . "</p>"
+  ?>
+
+  <h4>ARGUMENTOS VARIABLES EN FUNCIONES</h4>
+  <?php
+    function concatenar(...$args) :string {
+      $resultado = "";
+      foreach($args as $arg){
+        $resultado .= $arg . " - ";
+      }
+      return $resultado;
+    }
+
+    echo concatenar("UNO", "dos", "TRES")
   ?>
 
   <h2>FUNCIONES DE VARIABLES</h2>
@@ -151,8 +177,14 @@ require 'db.php'; // Importa la conexión a la base de datos
   if (isset($nombre)) {
     echo "La variable tiene el valor '$nombre'";
   }
-  ?>
 
+  echo '<br> La variable tiene como valor = ' . $nombre . ', pero si aplicamos "unset", es ';
+  unset($nombre);
+  echo $nombre;
+  ?>
+<br>
+<a href="form.php"><button type="button" style="margin:20px; padding: 10px; border-radius: 20px; border: 3px solid black; background-color:aquamarine">FORMULARIO</button></a>
+<a href="login.php"><button type="button" style="margin:20px; padding: 10px; border-radius: 20px; border: 3px solid black; background-color:skyblue">- LOGIN -</button></a>
 
 </body>
 
