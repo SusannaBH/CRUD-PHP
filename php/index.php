@@ -13,19 +13,27 @@ require 'db.php'; // Importa la conexión a la base de datos
 
 <body>
   <h1 style="color: orange; font-family: Georgia, serif;">PROGRAMACIÓN BÁSICA EN PHP</h1>
-  
+
   <h4>VARIABLES Y TIPOS DE DATOS</h4>
   <?php
-  $nombreString = "Susanna Bergaz"; 
+  $nombreString = "Susanna Bergaz";
   $edadNumeroEntero = 30;
   $alturaNumeroFloat = 1.63;
   $verFalBoolean = true;
   $simpaticaOperacionTernaria = $verFalBoolean ? 'Si :)' : 'No :(';
 
-  echo '(STRING) Nombre y apellidos: ' . $nombreString 
-  . '<br>(NUMERO ENTERO) Edad: ' . $edadNumeroEntero 
-  . ' años<br>(FLOAT) Altura: ' . $alturaNumeroFloat 
-  . '<br>(BOOLEAN + TERNARIO) ¿Eres simpatica? ' . $simpaticaOperacionTernaria;
+  echo '(STRING) Nombre y apellidos: ' . $nombreString
+    . '<br>(NUMERO ENTERO) Edad: ' . $edadNumeroEntero
+    . ' años<br>(FLOAT) Altura: ' . $alturaNumeroFloat
+    . '<br>(BOOLEAN + TERNARIO) ¿Eres simpatica? ' . $simpaticaOperacionTernaria;
+  ?>
+
+  <h4>CONSTANTES</h4>
+  <?php
+  define('PI', 3.1416);
+  if (defined('PI')) {
+    echo 'El valor de PI es: ' . PI;
+  }
   ?>
 
   <h4>OPERADORES BÁSICOS</h4>
@@ -36,11 +44,11 @@ require 'db.php'; // Importa la conexión a la base de datos
   $division = 15 / 5;
   $modulo = 10 % 3;
 
-  echo 'SUMA => 5 + 3 = ' . $suma 
-  . '<br>RESTA => 10 - 4 = ' . $resta 
-  . '<br>MULTIPLICACIÓN => 3 x 3 = ' . $multiplicacion 
-  . '<br>DIVISIÓN => 15 / 5 = ' . $division
-  . '<br>MÓDULO => 10 % 3 = '. $modulo;
+  echo 'SUMA => 5 + 3 = ' . $suma
+    . '<br>RESTA => 10 - 4 = ' . $resta
+    . '<br>MULTIPLICACIÓN => 3 x 3 = ' . $multiplicacion
+    . '<br>DIVISIÓN => 15 / 5 = ' . $division
+    . '<br>MÓDULO => 10 % 3 = ' . $modulo;
   ?>
 
   <!-- ARRAYS -->
@@ -54,73 +62,97 @@ require 'db.php'; // Importa la conexión a la base de datos
   print_r($array2Assoc);
   ?>
 
-    <h4>CONDICIONALES</h4>
-    <?php
-    echo '¿Cuánto mides? ';
-    if ($alturaNumeroFloat >= 1.75) {
-        echo "SOY ALTA";
-    } elseif ($alturaNumeroFloat >= 1.55) {
-      echo "SOY NORMAL";
-    } else {
-        echo "SOY UN MINION";
+  <h4>CONDICIONALES</h4>
+  <?php
+  echo '¿Cuánto mides? ';
+  if ($alturaNumeroFloat >= 1.75) {
+    echo "SOY ALTA";
+  } elseif ($alturaNumeroFloat >= 1.55) {
+    echo "SOY NORMAL";
+  } else {
+    echo "SOY UN MINION";
+  }
+  ?>
+
+  <h4>SWITCH</h4>
+  <?php
+  $dia = new DateTime();
+
+  switch ($dia) {
+    case "monday":
+      echo "Es lunes, inicio de semana.";
+      break;
+    case "friday":
+      echo "Es viernes, casi fin de semana.";
+      break;
+    case "saturday":
+    case "sunday":
+      echo "Es fin de semana.";
+      break;
+    default:
+      echo "Es entre semana.";
+      break;
+  }
+  ?>
+
+  <h2>BUCLES</h2>
+  <h4>Bucle for</h4>
+  <?php
+  for ($i = 0; $i < 5; $i++) {
+    echo "Número: $i <br>";
+  }
+  ?>
+
+  <h4>Bucle while</h4>
+  <?php
+  $contador = 0;
+  while ($contador < 3) {
+    echo "Contador: $contador <br>";
+    $contador++;
+  }
+  ?>
+
+  <h4>Bucle foreach</h4>
+  <?php
+  $colores = ["amarillo", "rosa", "negro", "blanco"];
+
+  foreach ($colores as $color) {
+    echo "Es color $color <br>";
+  }
+  ?>
+
+  <h2>FUNCIONES</h2>
+  <?php
+  function saludar($nombre)
+  {
+    return "Hola, $nombre";
+  }
+
+  echo saludar("CARACOLA");
+
+  $coloresAssoc = ["red" => "Rojo", "blue" => "Azul", "green" => "Verde"];
+
+  function iterarColores(iterable $colors)
+  {
+    $output = "";
+    foreach ($colors as $index => $color) {
+      $output .= "<span style='color: $index'> $color </span>";
     }
-    ?>
+    return $output;
+  }
 
-    <h4>SWITCH</h4>
-    <?php
-    $dia = new DateTime();
+  echo "<p>Función con <i>iterable</i> y array asociativo <br>" . iterarColores($coloresAssoc) . "</p>"
+  ?>
 
-    switch ($dia) {
-        case "monday":
-            echo "Es lunes, inicio de semana.";
-            break;
-        case "friday":
-            echo "Es viernes, casi fin de semana.";
-            break;
-        case "saturday":
-        case "sunday":
-            echo "Es fin de semana.";
-            break;
-        default:
-            echo "Es entre semana.";
-            break;
-    }
-    ?>
+  <h2>FUNCIONES DE VARIABLES</h2>
+  <h4>isset() y unset()</h4>
+  <?php
+  $nombre = "Marco";
+  if (isset($nombre)) {
+    echo "La variable tiene el valor '$nombre'";
+  }
+  ?>
 
-<h2>BUCLES</h2>
-    <h4>Bucle for</h4>
-    <?php
-    for ($i = 0; $i < 5; $i++) {
-        echo "Número: $i <br>";
-    }
-    ?>
-
-    <h4>Bucle while</h4>
-    <?php
-    $contador = 0;
-    while ($contador < 3) {
-        echo "Contador: $contador <br>";
-        $contador++;
-    }
-    ?>
-
-    <h4>Bucle foreach</h4>
-    <?php
-    $colores = ["amarillo", "rosa", "negro", "blanco"];
-
-    foreach ($colores as $color) {
-        echo "Es color $color <br>";
-    }
-    ?>
-
-    <h2>FUNCIONES</h2>
-    <?php
-    function saludar($nombre) {
-        return "Hola, $nombre";
-    }
-
-    echo saludar("CARACOLA");
-    ?>
 
 </body>
 
